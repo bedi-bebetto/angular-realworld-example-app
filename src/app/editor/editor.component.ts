@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Article, ArticlesService } from '../core';
+import { Article, ArticlesService, Errors } from '../core';
 
 @Component({
   selector: 'app-editor-page',
@@ -13,7 +13,7 @@ export class EditorComponent implements OnInit {
   article: Article = {} as Article;
   articleForm: FormGroup;
   tagField = new FormControl();
-  errors: Object = {};
+  errors: Errors = {errors: {}};
   isSubmitting = false;
 
   constructor(
@@ -85,6 +85,26 @@ export class EditorComponent implements OnInit {
         this.cd.markForCheck();
       }
     );
+  }
+
+  getInspired(): void {
+    this.articlesService.getRandomCatFact().subscribe(
+      res => {
+        if (res && res.text) {
+          this.articleForm.patchValue({
+            body: res.text
+          });
+        }
+      },
+      err => {
+        this.errors = {
+          errors: {
+            error: 'Failed to load an inspiration',
+            message: err.message
+          }
+        };
+        this.cd.markForCheck();
+      });
   }
 
   updateArticle(values: Object) {

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { Article, ArticleListConfig } from '../models';
 import { map } from 'rxjs/operators';
+import { environment } from 'environments/environment';
+import { CatFact } from 'app/core/models/cat-fact.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +62,7 @@ export class ArticlesService {
     return this.apiService.delete('/articles/' + slug + '/favorite');
   }
 
-
+  getRandomCatFact(): Observable<CatFact> {
+    return this.apiService.get('/facts/randoms', null, environment.cat_facts_api_url);
+  }
 }

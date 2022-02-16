@@ -49,7 +49,15 @@
             <button class="btn btn-lg pull-xs-right btn-primary" type="button" (click)="submitForm()">
               Publish Article
             </button>
-
+            <button
+              id="getInspiredButton"
+              appDebounceClick
+              [debounceTime]="300"
+              (debounceClick)="getInspired()"
+              class="btn btn-lg pull-xs-right btn-secondary m-r-1"
+              type="button">
+              Get Inspired
+            </button>
           </fieldset>
         </form>
 

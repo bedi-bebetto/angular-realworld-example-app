@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
+  cat_facts_api_url: 'https://cat-fact.herokuapp.com',
   api_url: 'https://api.realworld.io/api'
 };
