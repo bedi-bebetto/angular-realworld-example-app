@@ -3,6 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { JwtService } from '../services';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
@@ -14,9 +15,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
       'Accept': 'application/json'
     };
 
+    const isInternalAPIUrl = req.url.includes(environment.api_url);
     const token = this.jwtService.getToken();
 
-    if (token) {
+    if (token && isInternalAPIUrl) {
       headersConfig['Authorization'] = `Token ${token}`;
     }
 
